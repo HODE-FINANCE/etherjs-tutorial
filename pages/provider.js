@@ -1,16 +1,6 @@
 import { useState , useEffect } from 'react'
 import { ethers } from 'ethers'
-// 
-
-const sleep = function(milliseconds) {
-  const date = Date.now()
-  let currentDate = null
-  do {
-    currentDate = Date.now()
-  } while (currentDate - date < milliseconds)
-}
-
-
+//
 export default function ProviderPage() {
 
   const [provider, setProvider] = useState(null)

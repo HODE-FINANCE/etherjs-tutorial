@@ -8,35 +8,41 @@ export default function ReadContractPage() {
 
   const priceRoute = {
     pancake: {
-      code: 'pancake',
-      routeName: 'PancakeSwap',
       address: '0x10ED43C718714eb63d5aA57B78B54704E256024E',
-      api: [
-        'function getAmountsOut(uint amountIn, address[] memory path) public view returns (uint[] memory amounts)',
+      abi: [
+        `
+          function getAmountsOut(uint amountIn, address[] memory path) public view returns (uint[] memory amounts)
+        `,
       ],
     },
   }
 
-  const Contract = {
-    router: new ethers.Contract(
-      priceRoute.pancake.address,
-      priceRoute.pancake.api,
-      provider,
-    ),
-  }
+  // const Contract = {
+  //   router: new ethers.Contract(
+  //     priceRoute.pancake.address,
+  //     priceRoute.pancake.abi,
+  //     provider,
+  //   ),
+  // }
 
   const [exchangeRate, setExchangeRate] = useState(null)
 
   const getExchangeRate = async () => {
     const wadTokenAddress = '0x0feadcc3824e7f3c12f40e324a60c23ca51627fc'
     const busdTokenAddress = '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56'
-    const amounts = await Contract.router.getAmountsOut(
+
+    const contract = new ethers.Contract(
+      priceRoute.pancake.address,
+      priceRoute.pancake.abi,
+      provider,
+    )
+    
+    const amounts = await contract.getAmountsOut(
       ethers.utils.parseUnits('1', 18),
       [wadTokenAddress, busdTokenAddress],
     )
     setExchangeRate(amounts[1].toString() / 1e18)
   }
-
   
   return (
     <div>

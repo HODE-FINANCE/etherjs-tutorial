@@ -13,7 +13,7 @@ export default function ConnectPage() {
       if (accounts) {
         let account = window.ethereum.selectedAddress
         setAddress(account)
-        }
+      }
     }
   }
 
